@@ -33,6 +33,23 @@ find_library(GLEW_LIB NAMES glew32s PATHS "${GLEW_LIB_DIR}" REQUIRED)
 # Add project files
 add_subdirectory(source)
 
+# Properties
+if(PRODUCTION_BUILD)
+    # setup the DOMAINS_PATH macro to be in the root folder of your exe
+    target_compile_definitions("${PROJECT_NAME}" PUBLIC RESOURCES_PATH="./resources/")
+
+    # remove the option to debug asserts.
+    target_compile_definitions("${PROJECT_NAME}" PUBLIC PRODUCTION_BUILD=1)
+else()
+    # This is useful to get an DOMAINS_PATH in your IDE during development
+    target_compile_definitions("${PROJECT_NAME}" PUBLIC RESOURCES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/resources/")
+
+    # add the option to debug asserts.
+    target_compile_definitions("${PROJECT_NAME}" PUBLIC PRODUCTION_BUILD=0)
+endif()
+
+
+# Include libraries
 include_directories(${INCLUDE_DIR})
 link_directories(${GLEW_LIB_DIR})
 

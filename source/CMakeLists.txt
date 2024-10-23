@@ -4,6 +4,8 @@ set(SOURCE_FILES main.cpp
         window/Event.cpp
         window/Event.h
         graphic/Shader.cpp
-        graphic/Shader.h)
+        graphic/Shader.h
+        graphic/Texture.cpp
+        graphic/Texture.h)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

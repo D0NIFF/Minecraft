@@ -6,6 +6,8 @@ set(SOURCE_FILES main.cpp
         graphic/Shader.cpp
         graphic/Shader.h
         graphic/Texture.cpp
-        graphic/Texture.h)
+        graphic/Texture.h
+        system/Loader.cpp
+        system/Loader.h)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

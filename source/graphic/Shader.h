@@ -1,7 +1,3 @@
-//
-// Created by doniff on 10/22/2024.
-//
-
 #ifndef SHADER_H
 #define SHADER_H
 
@@ -17,7 +13,7 @@ public:
     void use();
 };
 
-    Shader* loadShader(const char* vertexPath, const char* fragmentPath);
+extern Shader* loadShader(const char* vertexPath, const char* fragmentPath);
 
 } // Graphic
 

@@ -7,22 +7,29 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "../system/Log.h"
 
 namespace Graphic {
-    Shader::Shader(unsigned int id) : ID(id)
+    Shader::Shader(unsigned int id) : id(id)
     {
     }
 
     Shader::~Shader()
     {
-        glDeleteProgram(this->ID);
+        glDeleteProgram(this->id);
     }
 
     void Shader::use() const
     {
-        glUseProgram(this->ID);
+        glUseProgram(this->id);
+    }
+
+    void Shader::uniformMatrix(const char* name, glm::mat4 matrix)
+    {
+        const GLuint transformation = glGetUniformLocation(this->id, name);
+        glUniformMatrix4fv(transformation, 1, GL_FALSE, glm::value_ptr(matrix));
     }
 
     Shader* loadShader(const char* vertexPath, const char* fragmentPath)

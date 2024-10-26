@@ -15,10 +15,10 @@
 2. Install [vcpkg](https://learn.microsoft.com/en-us/vcpkg/get_started/overview)
 3. Change path in `VCPKG_DIR` (CMakeLists.txt) to your vcpkg installation dir
 4. Install project dependencies
-    - `vckpg install glfw3` <br>
-    - `vckpg install glew` <br>
-    - `vckpg install glm` <br>
-    - `vckpg install zlib` <br>
+    - `vcpkg install glfw3` <br>
+    - `vcpkg install glew` <br>
+    - `vcpkg install glm` <br>
+    - `vcpkg install zlib` <br>
 
 
 ### Linux

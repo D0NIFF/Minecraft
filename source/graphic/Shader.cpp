@@ -1,12 +1,14 @@
+#pragma once
 #include "Shader.h"
 
 #include <exception>
 #include <fstream>
-#include <iostream>
 #include <sstream>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
+#include "../system/Log.h"
 
 namespace Graphic {
     Shader::Shader(unsigned int id) : ID(id)
@@ -18,7 +20,7 @@ namespace Graphic {
         glDeleteProgram(this->ID);
     }
 
-    void Shader::use()
+    void Shader::use() const
     {
         glUseProgram(this->ID);
     }
@@ -47,7 +49,7 @@ namespace Graphic {
             fragmentCode = fShaderStream.str();
         }
         catch(std::ifstream::failure& e) {
-            std::cerr << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ" << std::endl;
+            System::Log::error("ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ");
             return nullptr;
         }
 
@@ -65,8 +67,8 @@ namespace Graphic {
         glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
         if (!success){
             glGetShaderInfoLog(vertex, 512, nullptr, infoLog);
-            std::cerr << "SHADER::VERTEX: compilation failed" << std::endl;
-            std::cerr << infoLog << std::endl;
+            System::Log::error("SHADER::VERTEX: compilation failed");
+            System::Log::error(infoLog);
             return nullptr;
         }
 
@@ -77,8 +79,8 @@ namespace Graphic {
         glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
         if (!success){
             glGetShaderInfoLog(fragment, 512, nullptr, infoLog);
-            std::cerr << "SHADER::FRAGMENT: compilation failed" << std::endl;
-            std::cerr << infoLog << std::endl;
+            System::Log::error("SHADER::FRAGMENT: compilation failed");
+            System::Log::error(infoLog);
             return nullptr;
         }
 
@@ -91,8 +93,8 @@ namespace Graphic {
         glGetProgramiv(id, GL_LINK_STATUS, &success);
         if (!success){
             glGetProgramInfoLog(id, 512, nullptr, infoLog);
-            std::cerr << "SHADER::PROGRAM: linking failed" << std::endl;
-            std::cerr << infoLog << std::endl;
+            System::Log::error("SHADER::PROGRAM: linking failed");
+            System::Log::error(infoLog);
 
             glDeleteShader(vertex);
             glDeleteShader(fragment);

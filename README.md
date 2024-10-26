@@ -5,7 +5,6 @@
 - GLFW
 - GLEW
 - ZLIB
-- LIBPNG
 
 ## Installation
 > [!NOTE]
@@ -20,4 +19,3 @@
     - `vckpg install glew` <br>
     - `vckpg install glm` <br>
     - `vckpg install zlib` <br>
-    - `vckpg install libpng` <br>

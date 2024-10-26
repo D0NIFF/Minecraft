@@ -4,6 +4,7 @@
 
 #include "Event.h"
 
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <cstring>
 
@@ -44,7 +45,7 @@ void mouseButtonCallback(GLFWwindow* window, int button, int action, int mode){
 	}
 }
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode) {
+void keyCallback(GLFWwindow* window, const int key, int scancode, const int action, int mode) {
 	if (action == GLFW_PRESS){
 		Event::_keys[key] = true;
 		Event::_frames[key] = Event::_current;
@@ -55,6 +56,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	}
 }
 
+void windowSizeCallback(GLFWwindow* window, const int width, const int height)
+{
+	glViewport(0, 0, width, height);
+}
+
 int Event::initialize(){
 	GLFWwindow* window = Window::window;
 	_keys = new bool[1032];
@@ -63,9 +69,10 @@ int Event::initialize(){
 	memset(_keys, false, 1032 * sizeof(bool));
 	memset(_frames, 0, 1032 * sizeof(uint));
 
-	glfwSetKeyCallback(window, key_callback);
+	glfwSetKeyCallback(window, keyCallback);
 	glfwSetMouseButtonCallback(window, mouseButtonCallback);
 	glfwSetCursorPosCallback(window, cursorPositionCallback);
+	glfwSetWindowSizeCallback(window, windowSizeCallback);
 	return 0;
 }
 

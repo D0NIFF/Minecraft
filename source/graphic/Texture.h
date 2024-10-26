@@ -14,9 +14,10 @@ public:
 
     void bind() const;
 
-    static Texture* loadTexture(const char* path);
+
 };
 
+    extern Texture* loadTexture(const char* path);
 
 } // Graphic
 

@@ -2,7 +2,7 @@
 #define SHADER_H
 #include <glm/fwd.hpp>
 
-namespace Graphic {
+namespace Graphics {
 
 class Shader {
 public:
@@ -12,7 +12,7 @@ public:
     ~Shader();
 
     void use() const;
-    void uniformMatrix(const char* name, glm::mat4 matrix);
+    void uniformMatrix(const char* name, glm::mat4 matrix) const;
 };
 
 extern Shader* loadShader(const char* vertexPath, const char* fragmentPath);

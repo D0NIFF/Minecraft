@@ -9,8 +9,8 @@
 #include "window/Event.h"       // Custom Event class
 #include "window/Camera.h"       // Custom Camera class
 
-#include "graphic/Shader.h"     // Custom Shader class
-#include "graphic/Texture.h"    // Custom Texture class
+#include "graphics/Shader.h"     // Custom Shader class
+#include "graphics/Texture.h"    // Custom Texture class
 
 #include "system/Log.h"         // Custom Log class
 
@@ -37,7 +37,7 @@ int main()
     Event::initialize();                                // Initialize event handling
 
     // Load vertex and fragment shaders from specified paths
-    Graphic::Shader* shader = Graphic::loadShader(RESOURCES_PATH "shaders/main.vert", RESOURCES_PATH "shaders/main.frag");
+    Graphics::Shader* shader = Graphics::loadShader(RESOURCES_PATH "shaders/main.vert", RESOURCES_PATH "shaders/main.frag");
     if(shader == nullptr) // Check if shader loading failed
     {
         System::Log::error("Failed to load shaders");
@@ -46,7 +46,7 @@ int main()
     }
 
     // Load texture from specified path
-    Graphic::Texture* texture = Graphic::loadTexture(RESOURCES_PATH "textures/test.png");
+    Graphics::Texture* texture = Graphics::loadTexture(RESOURCES_PATH "textures/test.png");
     if(texture == nullptr) // Check if texture loading failed
     {
         System::Log::error("Failed to load textures");

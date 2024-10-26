@@ -6,7 +6,7 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "Log.h"
-#include "../graphic/stb_image.h"
+#include "../graphics/stb_image.h"
 
 namespace System {
     int Loader::loadPng(const char* fileName, int* width, int* height) {

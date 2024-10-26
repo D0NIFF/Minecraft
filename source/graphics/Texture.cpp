@@ -6,7 +6,7 @@
 #include "../system/Loader.h"
 #include "../system/Log.h"
 
-namespace Graphic {
+namespace Graphics {
     Texture::Texture(const unsigned int id, const int width, const int height): id(id), width(width), height(height)
     {
     }

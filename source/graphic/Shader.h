@@ -10,7 +10,7 @@ public:
     explicit Shader(unsigned int id);
     ~Shader();
 
-    void use();
+    void use() const;
 };
 
 extern Shader* loadShader(const char* vertexPath, const char* fragmentPath);

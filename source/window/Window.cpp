@@ -1,10 +1,11 @@
 #pragma once
 
-#include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #include "Window.h"
+
+#include "../system/Log.h"
 
 GLFWwindow* Window::window;
 
@@ -20,7 +21,7 @@ int Window::initialize(const int width, const int height, const char* title)
 
     if (window == nullptr)
     {
-        std::cout << "Failed to create GLFW window." << std::endl;
+        System::Log::error("Failed to create GLFW window");
         glfwTerminate();
         return -1;
     }
@@ -29,14 +30,14 @@ int Window::initialize(const int width, const int height, const char* title)
     int glewExperimental = GL_TRUE;
     if(glfwInit() != GL_TRUE)
     {
-        std::cout << "Failed to initialize GLEW." << std::endl;
+        System::Log::error("Failed to initialize GLEW");
         return -1;
     }
 
     glfwMakeContextCurrent(window);
     glewExperimental = GL_TRUE;
     if (glewInit() != GLEW_OK) {
-        std::cerr << "Failed to initialize GLEW" << std::endl;
+        System::Log::error("Failed to initialize GLEW");
         return -1;
     }
     glViewport(0, 0, width, height);

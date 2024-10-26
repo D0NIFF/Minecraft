@@ -11,6 +11,8 @@ set(SOURCE_FILES main.cpp
         system/Loader.cpp
         system/Loader.h
         system/Log.cpp
-        system/Log.h)
+        system/Log.h
+        window/Camera.cpp
+        window/Camera.h)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

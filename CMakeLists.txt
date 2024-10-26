@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.28)    # Minimum CMake version required
 project(Minecraft)                      # Project name
 set(CMAKE_CXX_STANDARD 26)              # Set C++ standard to C++26
+set(CMAKE_EXE_LINKER_FLAGS "-static")   # Set static flag compiling
 
 set(VCPKG_DIR "C:/vcpkg/installed/x64-windows")     # Set vcpkg local path
 

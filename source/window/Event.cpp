@@ -59,6 +59,8 @@ void keyCallback(GLFWwindow* window, const int key, int scancode, const int acti
 void windowSizeCallback(GLFWwindow* window, const int width, const int height)
 {
 	glViewport(0, 0, width, height);
+	Window::width = width;
+	Window::height = height;
 }
 
 int Event::initialize(){
@@ -96,6 +98,12 @@ bool Event::clicked(int button){
 bool Event::jclicked(int button){
 	int index = _MOUSE_BUTTONS+button;
 	return _keys[index] && _frames[index] == _current;
+}
+
+void Event::toggleCursorLocked()
+{
+	_cursorLocked = !_cursorLocked;
+	Window::setCursorMode(_cursorLocked ? GLFW_CURSOR_DISABLED : GLFW_CURSOR_NORMAL);
 }
 
 void Event::pullEvents(){

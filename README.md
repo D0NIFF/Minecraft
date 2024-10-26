@@ -19,3 +19,11 @@
     - `vckpg install glew` <br>
     - `vckpg install glm` <br>
     - `vckpg install zlib` <br>
+
+
+### Linux
+_in progress_
+
+
+### MacOS
+_in progress_

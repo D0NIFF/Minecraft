@@ -2,12 +2,17 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/ext.hpp>
 
-#include "window/Window.h"
-#include "window/Event.h"
-#include "graphic/Shader.h"
-#include "graphic/Texture.h"
-#include "system/Log.h"
+#include "window/Window.h"      // Custom Window class
+#include "window/Event.h"       // Custom Event class
+#include "window/Camera.h"       // Custom Camera class
+
+#include "graphic/Shader.h"     // Custom Shader class
+#include "graphic/Texture.h"    // Custom Texture class
+
+#include "system/Log.h"         // Custom Log class
 
 // Define the width and height of the window
 int WIDTH = 1280;
@@ -50,10 +55,10 @@ int main()
         return -1; // Exit with error code
     }
 
-    // Create Vertex Array Object (VAO) and Vertex Buffer Object (VBO)
-    GLuint VAO, VBO;
-    glGenVertexArrays(1, &VAO); // Generate a VAO
-    glGenBuffers(1, &VBO); // Generate a VBO
+
+    GLuint VAO, VBO;                  // Create Vertex Array Object (VAO) and Vertex Buffer Object (VBO)
+    glGenVertexArrays(1, &VAO);     // Generate a VAO
+    glGenBuffers(1, &VBO);          // Generate a VBO
 
     glBindVertexArray(VAO); // Bind the VAO to the current context
     glBindBuffer(GL_ARRAY_BUFFER, VBO); // Bind the VBO to the current context
@@ -70,37 +75,79 @@ int main()
 
     glBindVertexArray(0); // Unbind the VAO
 
-    // Set the clear color for the window
-    glClearColor(0.6f, 0.62f, 0.65f, 1); // Light gray color
+    // Main camera
+    constexpr float defaultFOV = 70.0f;                         // Default value for FOV in camera
+    constexpr auto defaultPosition = glm::vec3(0, 0, 1);  // Default value for position in camera
+    auto* camera = new Windows::Camera(defaultPosition, glm::radians(defaultFOV));
+    System::Log::alert("Initialized camera");
 
-    // Enable face culling and blending
-    glEnable(GL_CULL_FACE); // Enable face culling to remove back faces
-    glEnable(GL_BLEND); // Enable blending for transparency
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Set blending function
+
+    glm::mat4 model(1.0f); // Initialize the matrix
+    model = glm::translate(model, glm::vec3(0.5f, 0, 0));
+    System::Log::alert("Initialized matrix");
+
+    float lastTime = static_cast<float>(glfwGetTime());
+    float delta = 0.0f; //
+    float camX = 0.0f;
+    float camY = 0.0f;  // C
 
     // Main loop
-    while (!Window::isShouldClose()) { // Continue until the window should close
+    while (!Window::isShouldClose())
+    {
+        // Continue until the window should close
         Event::pullEvents(); // Poll for and process events
 
-        // Check if the escape key is pressed
-        if(Event::jpressed(GLFW_KEY_ESCAPE))
-            Window::setShouldClose(true); // Set the window to close
+        constexpr float speed = 5;  // Camera movement speed
+        const float currentTime = static_cast<float>(glfwGetTime());
 
-        // Check if the left mouse button is clicked
-        if(Event::jclicked(GLFW_MOUSE_BUTTON_1))
-        {
-            glClearColor(1.0f, 0.2467f, 0.3164f, 1.0f); // Change clear color to a different color
+        delta = currentTime - lastTime;
+        lastTime = currentTime;
+
+        if (Event::jpressed(GLFW_KEY_ESCAPE))
+            Window::setShouldClose(true);
+
+        if (Event::jpressed(GLFW_KEY_TAB))
+            Event::toggleCursorLocked();
+
+        if (Event::pressed(GLFW_KEY_W))
+            camera->position += camera->front * delta * speed;
+
+        if (Event::pressed(GLFW_KEY_S))
+            camera->position -= camera->front * delta * speed;
+
+        if (Event::pressed(GLFW_KEY_D))
+            camera->position += camera->right * delta * speed;
+
+        if (Event::pressed(GLFW_KEY_A))
+            camera->position -= camera->right * delta * speed;
+
+
+        if (Event::_cursorLocked){
+            camY += -Event::deltaY / static_cast<float>(Window::height) * 2;
+            camX += -Event::deltaX / static_cast<float>(Window::height) * 2;
+
+            if (camY < -glm::radians(89.0f)){
+                camY = -glm::radians(89.0f);
+            }
+            if (camY > glm::radians(89.0f)){
+                camY = glm::radians(89.0f);
+            }
+
+            camera->rotation = glm::mat4(1.0f);
+            camera->rotate(camY, camX, 0);
         }
 
-        glClear(GL_COLOR_BUFFER_BIT); // Clear the color buffer
+        glClear(GL_COLOR_BUFFER_BIT);              // Clear the color buffer
 
-        shader->use(); // Use the loaded shader program
-        texture->bind(); // Bind the loaded texture
-        glBindVertexArray(VAO); // Bind the VAO
+        shader->use();                                  // Use the loaded shader program
+        shader->uniformMatrix("model", model);     // Load matrix to shader
+        shader->uniformMatrix("projectionView", camera->getProjectionMatrix() * camera->getViewMatrix());
+        texture->bind();                                // Bind the loaded texture
+        glBindVertexArray(VAO);                         // Bind the VAO
         glDrawArrays(GL_TRIANGLES, 0, 6); // Draw the rectangle as two triangles
-        glBindVertexArray(0); // Unbind the VAO
+        glBindVertexArray(0);                      // Unbind the VAO
 
-        Window::swapBuffers(); // Swap the front and back buffers
+        Window::swapBuffers();                          // Swap the front and back buffers
     }
 
     // Clean up resources

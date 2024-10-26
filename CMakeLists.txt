@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.29)    # Minimum CMake version required
+cmake_minimum_required(VERSION 3.28)    # Minimum CMake version required
 project(Minecraft)                      # Project name
 set(CMAKE_CXX_STANDARD 26)              # Set C++ standard to C++26
 
@@ -21,7 +21,6 @@ find_package(OpenGL REQUIRED)           # Find and load OpenGL
 find_package(GLEW REQUIRED)             # Find and load GLEW
 find_package(glm CONFIG REQUIRED)       # Find and load GLM
 find_package(ZLIB REQUIRED)             # Find and load ZLIB
-find_package(PNG REQUIRED)              # Find and load LIBPNG
 
 
 # Properties
@@ -46,5 +45,4 @@ else ()
     target_link_libraries(${PROJECT_NAME} PRIVATE glew)
     target_link_libraries(${PROJECT_NAME} PRIVATE zlib)
 endif ()
-target_link_libraries(${PROJECT_NAME} PRIVATE PNG::PNG)
 target_link_libraries(${PROJECT_NAME} PRIVATE glm::glm)

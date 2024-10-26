@@ -12,10 +12,10 @@ GLFWwindow* Window::window;
 int Window::initialize(const int width, const int height, const char* title)
 {
     glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);                  // Max version: 3
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);                  // Min version: 3
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+    glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);                        // Window scaling: true
 
     window = glfwCreateWindow(width, height, title, nullptr, nullptr);
 

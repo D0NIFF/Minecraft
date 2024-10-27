@@ -5,14 +5,15 @@
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
-#include "window/Window.h"      // Custom Window class
-#include "window/Event.h"       // Custom Event class
-#include "window/Camera.h"       // Custom Camera class
+#include "window/Window.h"              // Custom Window class
+#include "window/Event.h"               // Custom Event class
+#include "window/Camera.h"              // Custom Camera class
 
-#include "graphics/Shader.h"     // Custom Shader class
-#include "graphics/Texture.h"    // Custom Texture class
+#include "graphics/Shader.h"            // Custom Shader class
+#include "graphics/Texture.h"           // Custom Texture class
+#include "graphics/Mesh.h"              // Custom Mesh class
 
-#include "system/Log.h"         // Custom Log class
+#include "system/Log.h"                 // Custom Log class
 
 // Define the width and height of the window
 int WIDTH = 1280;
@@ -28,6 +29,10 @@ float vertices[] = {
      1.0f,-1.0f, 0.0f, 1.0f, 1.0f, // Bottom right vertex (again)
      1.0f, 1.0f, 0.0f, 1.0f, 0.0f, // Top right vertex
     -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, // Top left vertex (again)
+};
+
+int attrs[] = {
+    3, 2, 0
 };
 
 int main()
@@ -55,25 +60,13 @@ int main()
         return -1; // Exit with error code
     }
 
+    Graphics::Mesh* mesh = new Graphics::Mesh(vertices, 6, attrs);
+    glClearColor(0.6f,0.62f,0.65f,1);
 
-    GLuint VAO, VBO;                  // Create Vertex Array Object (VAO) and Vertex Buffer Object (VBO)
-    glGenVertexArrays(1, &VAO);     // Generate a VAO
-    glGenBuffers(1, &VBO);          // Generate a VBO
-
-    glBindVertexArray(VAO); // Bind the VAO to the current context
-    glBindBuffer(GL_ARRAY_BUFFER, VBO); // Bind the VBO to the current context
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); // Upload vertex data to the GPU
-
-    // Set up vertex attribute pointers
-    // Position attribute (x, y, z)
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(0 * sizeof(GLfloat)));
-    glEnableVertexAttribArray(0); // Enable the position attribute
-
-    // Texture coordinate attribute (u, v)
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-    glEnableVertexAttribArray(1); // Enable the texture coordinate attribute
-
-    glBindVertexArray(0); // Unbind the VAO
+    glEnable(GL_DEPTH_TEST);
+    // glEnable(GL_CULL_FACE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Main camera
     constexpr float defaultFOV = 70.0f;                         // Default value for FOV in camera
@@ -94,8 +87,6 @@ int main()
     // Main loop
     while (!Window::isShouldClose())
     {
-        // Continue until the window should close
-        Event::pullEvents(); // Poll for and process events
 
         constexpr float speed = 5;  // Camera movement speed
         const float currentTime = static_cast<float>(glfwGetTime());
@@ -137,25 +128,23 @@ int main()
             camera->rotate(camY, camX, 0);
         }
 
-        glClear(GL_COLOR_BUFFER_BIT);              // Clear the color buffer
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the color buffer
 
         shader->use();                                  // Use the loaded shader program
         shader->uniformMatrix("model", model);     // Load matrix to shader
         shader->uniformMatrix("projectionView", camera->getProjectionMatrix() * camera->getViewMatrix());
         texture->bind();                                // Bind the loaded texture
-        glBindVertexArray(VAO);                         // Bind the VAO
-        glDrawArrays(GL_TRIANGLES, 0, 6); // Draw the rectangle as two triangles
-        glBindVertexArray(0);                      // Unbind the VAO
+        mesh->draw(GL_TRIANGLES);
 
         Window::swapBuffers();                          // Swap the front and back buffers
+        Event::pullEvents();
     }
 
     // Clean up resources
     delete shader; // Delete the shader
     delete texture; // Delete the texture
+    delete mesh; // Delete the mesh
 
-    glDeleteBuffers(1, &VBO); // Delete the VBO
-    glDeleteVertexArrays(1, &VAO); // Delete the VAO
     Window::terminate();
     System::Log::alert("Program ended");
     return 0;

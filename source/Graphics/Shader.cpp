@@ -1,4 +1,3 @@
-#pragma once
 #include "Shader.h"
 
 #include <exception>
@@ -9,12 +8,11 @@
 #include <GLFW/glfw3.h>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "../system/Log.h"
+#include "../Debug/Log.h"
 
-namespace Graphic {
+namespace Graphics {
     Shader::Shader(unsigned int id) : id(id)
-    {
-    }
+    {}
 
     Shader::~Shader()
     {
@@ -26,7 +24,7 @@ namespace Graphic {
         glUseProgram(this->id);
     }
 
-    void Shader::uniformMatrix(const char* name, glm::mat4 matrix)
+    void Shader::uniformMatrix(const char* name, glm::mat4 matrix) const
     {
         const GLuint transformation = glGetUniformLocation(this->id, name);
         glUniformMatrix4fv(transformation, 1, GL_FALSE, glm::value_ptr(matrix));
@@ -56,7 +54,7 @@ namespace Graphic {
             fragmentCode = fShaderStream.str();
         }
         catch(std::ifstream::failure& e) {
-            System::Log::error("ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ");
+            Debug::Log::error("ERROR::SHADER: File not successfully read");
             return nullptr;
         }
 
@@ -74,8 +72,8 @@ namespace Graphic {
         glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
         if (!success){
             glGetShaderInfoLog(vertex, 512, nullptr, infoLog);
-            System::Log::error("SHADER::VERTEX: compilation failed");
-            System::Log::error(infoLog);
+            Debug::Log::error("ERROR::SHADER::VERTEX: compilation failed");
+            Debug::Log::error(infoLog);
             return nullptr;
         }
 
@@ -86,8 +84,8 @@ namespace Graphic {
         glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
         if (!success){
             glGetShaderInfoLog(fragment, 512, nullptr, infoLog);
-            System::Log::error("SHADER::FRAGMENT: compilation failed");
-            System::Log::error(infoLog);
+            Debug::Log::error("ERROR::SHADER::FRAGMENT: compilation failed");
+            Debug::Log::error(infoLog);
             return nullptr;
         }
 
@@ -100,8 +98,8 @@ namespace Graphic {
         glGetProgramiv(id, GL_LINK_STATUS, &success);
         if (!success){
             glGetProgramInfoLog(id, 512, nullptr, infoLog);
-            System::Log::error("SHADER::PROGRAM: linking failed");
-            System::Log::error(infoLog);
+            Debug::Log::error("SHADER::PROGRAM: linking failed");
+            Debug::Log::error(infoLog);
 
             glDeleteShader(vertex);
             glDeleteShader(fragment);

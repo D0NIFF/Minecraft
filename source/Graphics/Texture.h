@@ -2,7 +2,7 @@
 #define TEXTURE_H
 #include <GL/glew.h>
 
-namespace Graphic {
+namespace Graphics {
 
 class Texture {
 public:

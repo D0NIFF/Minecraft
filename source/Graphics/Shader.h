@@ -1,8 +1,9 @@
 #ifndef SHADER_H
 #define SHADER_H
+#pragma once
 #include <glm/fwd.hpp>
 
-namespace Graphic {
+namespace Graphics {
 
 class Shader {
 public:
@@ -12,7 +13,7 @@ public:
     ~Shader();
 
     void use() const;
-    void uniformMatrix(const char* name, glm::mat4 matrix);
+    void uniformMatrix(const char* name, glm::mat4 matrix) const;
 };
 
 extern Shader* loadShader(const char* vertexPath, const char* fragmentPath);

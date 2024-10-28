@@ -1,10 +1,9 @@
-#pragma once
 #include "Log.h"
 
 #include <iostream>
 #include <ctime>
 
-namespace System {
+namespace Debug {
     std::string Log::currentDateTime() {
         time_t     now = time(0);
         struct tm  tstruct;

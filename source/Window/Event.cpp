@@ -1,7 +1,3 @@
-//
-// Created by doniff on 10/20/2024.
-//
-
 #include "Event.h"
 
 #include <GL/glew.h>

@@ -1,22 +1,21 @@
-#pragma once
 #include "Loader.h"
 
 #include <GLFW/glfw3.h>
 #include <format>
 
 #define STB_IMAGE_IMPLEMENTATION
-#include "Log.h"
-#include "../graphics/stb_image.h"
+#include "../Debug/Log.h"
+#include "../Graphics/stb_image.h"
 
 namespace System {
     int Loader::loadPng(const char* fileName, int* width, int* height) {
         //std::cout << "Opening file: " << fileName << std::endl;
-        System::Log::alert(std::format("Opening file:  {}", fileName));
+        Debug::Log::alert(std::format("Opening file:  {}", fileName));
 
         // Image load with stb_image
         unsigned char* image_data = stbi_load(fileName, width, height, nullptr, 4); // 4 - RGBA
         if (!image_data) {
-            System::Log::error(std::format("Failed to load image: {}", fileName));
+            Debug::Log::error(std::format("Failed to load image: {}", fileName));
             return 0;
         }
 
@@ -32,7 +31,7 @@ namespace System {
         // To free the memory, selected for image
         stbi_image_free(image_data);
 
-        System::Log::alert(std::format("Texture loaded successfully: {}", fileName));
+        Debug::Log::alert(std::format("Texture loaded successfully: {}", fileName));
 
         return texture;
     }

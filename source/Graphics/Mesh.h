@@ -7,8 +7,8 @@ namespace Graphics {
 
 class Mesh {
 private:
-    unsigned int vao;
-    unsigned int vbo;
+    unsigned int vao{};
+    unsigned int vbo{};
     size_t vertices;
 
 public:

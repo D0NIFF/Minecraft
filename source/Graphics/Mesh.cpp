@@ -2,9 +2,12 @@
 
 #include <GL/glew.h>
 
+#include "../Debug/Log.h"
+
 namespace Graphics {
-    Mesh::Mesh(const float* buffer, size_t size, const int* attributes) : vertices(size)
+    Mesh::Mesh(const float* buffer, const size_t size, const int* attributes) : vertices(size)
     {
+        Debug::Log::alert("Mesh initializing started.");
         int vertexSize = 0;
         for (int i = 0; attributes[i]; i++)
             vertexSize += attributes[i];
@@ -26,12 +29,14 @@ namespace Graphics {
         }
 
         glBindVertexArray(0);
+        Debug::Log::alert("Mesh successfully initialized.");
     }
 
     Mesh::~Mesh()
     {
         glDeleteVertexArrays(1, &vao);
         glDeleteBuffers(1, &vbo);
+        Debug::Log::alert("Mesh successfully deleting.");
     }
 
     void Mesh::draw(const unsigned int shader) const

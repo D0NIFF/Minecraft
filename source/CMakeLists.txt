@@ -13,16 +13,16 @@ set(SOURCE_FILES main.cpp
         graphics/stb_image.h
         graphics/Mesh.cpp
         graphics/Mesh.h
-        graphics/render/Voxel.cpp
-        graphics/render/Voxel.h
+        Graphics/render/Voxel.cpp
+        Graphics/render/Voxel.h
 
         system/Loader.cpp
         system/Loader.h
-        system/Log.cpp
-        system/Log.h
+        Debug/Log.cpp
+        Debug/Log.h
 
-        engine/voxel/Chunk.cpp
-        engine/voxel/Chunk.h
-        engine/voxel/VoxelStruct.h)
+        Engine/voxel/Chunk.cpp
+        Engine/voxel/Chunk.h
+        Engine/voxel/VoxelStruct.h)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})

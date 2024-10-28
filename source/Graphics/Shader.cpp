@@ -1,4 +1,3 @@
-#pragma once
 #include "Shader.h"
 
 #include <exception>
@@ -9,7 +8,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "../system/Log.h"
+#include "../Debug/Log.h"
 
 namespace Graphics {
     Shader::Shader(unsigned int id) : id(id)
@@ -55,7 +54,7 @@ namespace Graphics {
             fragmentCode = fShaderStream.str();
         }
         catch(std::ifstream::failure& e) {
-            System::Log::error("ERROR::SHADER: File not successfully read");
+            Debug::Log::error("ERROR::SHADER: File not successfully read");
             return nullptr;
         }
 
@@ -73,8 +72,8 @@ namespace Graphics {
         glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
         if (!success){
             glGetShaderInfoLog(vertex, 512, nullptr, infoLog);
-            System::Log::error("ERROR::SHADER::VERTEX: compilation failed");
-            System::Log::error(infoLog);
+            Debug::Log::error("ERROR::SHADER::VERTEX: compilation failed");
+            Debug::Log::error(infoLog);
             return nullptr;
         }
 
@@ -85,8 +84,8 @@ namespace Graphics {
         glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
         if (!success){
             glGetShaderInfoLog(fragment, 512, nullptr, infoLog);
-            System::Log::error("ERROR::SHADER::FRAGMENT: compilation failed");
-            System::Log::error(infoLog);
+            Debug::Log::error("ERROR::SHADER::FRAGMENT: compilation failed");
+            Debug::Log::error(infoLog);
             return nullptr;
         }
 
@@ -99,8 +98,8 @@ namespace Graphics {
         glGetProgramiv(id, GL_LINK_STATUS, &success);
         if (!success){
             glGetProgramInfoLog(id, 512, nullptr, infoLog);
-            System::Log::error("SHADER::PROGRAM: linking failed");
-            System::Log::error(infoLog);
+            Debug::Log::error("SHADER::PROGRAM: linking failed");
+            Debug::Log::error(infoLog);
 
             glDeleteShader(vertex);
             glDeleteShader(fragment);

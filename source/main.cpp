@@ -1,43 +1,30 @@
 #include <iostream>
 
+#define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
-#include "window/Window.h"              // Custom Window class
-#include "window/Event.h"               // Custom Event class
-#include "window/Camera.h"              // Custom Camera class
+#include "Engine/Voxel/Chunk.h"
+#include "Window/Window.h"              // Custom Window class
+#include "Window/Event.h"               // Custom Event class
+#include "Window/Camera.h"              // Custom Camera class
 
-#include "graphics/Shader.h"            // Custom Shader class
-#include "graphics/Texture.h"           // Custom Texture class
-#include "graphics/Mesh.h"              // Custom Mesh class
+#include "Graphics/Shader.h"            // Custom Shader class
+#include "Graphics/Texture.h"           // Custom Texture class
+#include "Graphics/Mesh.h"              // Custom Mesh class
+#include "Graphics/Render/Voxel.h"      // Custom Voxel class
 
-#include "system/Log.h"                 // Custom Log class
+#include "Debug/Log.h"                  // Custom Log class
 
 // Define the width and height of the window
 int WIDTH = 1280;
 int HEIGHT = 720;
 
-// Define the vertex data for a rectangle (two triangles)
-float vertices[] = {
-    // x    y     z     u     v
-    -1.0f,-1.0f, 0.0f, 0.0f, 1.0f, // Bottom left vertex
-     1.0f,-1.0f, 0.0f, 1.0f, 1.0f, // Bottom right vertex
-    -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, // Top left vertex
-
-     1.0f,-1.0f, 0.0f, 1.0f, 1.0f, // Bottom right vertex (again)
-     1.0f, 1.0f, 0.0f, 1.0f, 0.0f, // Top right vertex
-    -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, // Top left vertex (again)
-};
-
-int attrs[] = {
-    3, 2, 0
-};
-
 int main()
 {
-    System::Log::alert("Program started");
+    Debug::Log::alert("Program started");
     Window::initialize(WIDTH, HEIGHT, "Minecraft"); // Initialize the window with specified width, height, and title
     Event::initialize();                                // Initialize event handling
 
@@ -45,26 +32,28 @@ int main()
     Graphics::Shader* shader = Graphics::loadShader(RESOURCES_PATH "shaders/main.vert", RESOURCES_PATH "shaders/main.frag");
     if(shader == nullptr) // Check if shader loading failed
     {
-        System::Log::error("Failed to load shaders");
+        Debug::Log::error("Failed to load shaders");
         Window::terminate();
         return -1; // Exit with error code
     }
 
     // Load texture from specified path
-    Graphics::Texture* texture = Graphics::loadTexture(RESOURCES_PATH "textures/test.png");
+    Graphics::Texture* texture = Graphics::loadTexture(RESOURCES_PATH "textures/blocks.png");
     if(texture == nullptr) // Check if texture loading failed
     {
-        System::Log::error("Failed to load textures");
+        Debug::Log::error("Failed to load textures");
         delete shader; // Clean up shader resource
         Window::terminate(); // Terminate the window
         return -1; // Exit with error code
     }
 
-    Graphics::Mesh* mesh = new Graphics::Mesh(vertices, 6, attrs);
+    Graphics::Render::Voxel renderer(1024 * 1024 * 8);
+    Engine::Voxel::Chunk* chunk = new Engine::Voxel::Chunk();
+    const Graphics::Mesh* mesh = renderer.render(chunk);
     glClearColor(0.6f,0.62f,0.65f,1);
 
     glEnable(GL_DEPTH_TEST);
-    // glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -72,12 +61,12 @@ int main()
     constexpr float defaultFOV = 70.0f;                         // Default value for FOV in camera
     constexpr auto defaultPosition = glm::vec3(0, 0, 1);  // Default value for position in camera
     auto* camera = new Windows::Camera(defaultPosition, glm::radians(defaultFOV));
-    System::Log::alert("Initialized camera");
+    Debug::Log::alert("Initialized camera");
 
 
     glm::mat4 model(1.0f); // Initialize the matrix
     model = glm::translate(model, glm::vec3(0.5f, 0, 0));
-    System::Log::alert("Initialized matrix");
+    Debug::Log::alert("Initialized matrix");
 
     float lastTime = static_cast<float>(glfwGetTime());
     float delta = 0.0f; //
@@ -144,8 +133,9 @@ int main()
     delete shader; // Delete the shader
     delete texture; // Delete the texture
     delete mesh; // Delete the mesh
+    delete chunk; // Delete the mesh
 
     Window::terminate();
-    System::Log::alert("Program ended");
+    Debug::Log::alert("Program ended");
     return 0;
 }

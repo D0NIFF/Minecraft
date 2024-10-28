@@ -1,11 +1,9 @@
-#pragma once
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 #include "Window.h"
 
-#include "../system/Log.h"
+#include "../Debug/Log.h"
 
 GLFWwindow* Window::window;
 int Window::width = 0;
@@ -13,7 +11,7 @@ int Window::height = 0;
 
 int Window::initialize(const int width, const int height, const char* title)
 {
-    System::Log::alert("Starting window initialization");
+    Debug::Log::alert("Starting window initialization");
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);                  // Max version: 3
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);                  // Min version: 3
@@ -24,7 +22,7 @@ int Window::initialize(const int width, const int height, const char* title)
 
     if (window == nullptr)
     {
-        System::Log::error("Failed to create GLFW window");
+        Debug::Log::error("Failed to create GLFW window");
         glfwTerminate();
         return -1;
     }
@@ -33,14 +31,14 @@ int Window::initialize(const int width, const int height, const char* title)
     int glewExperimental = GL_TRUE;
     if(glfwInit() != GL_TRUE)
     {
-        System::Log::error("Failed to initialize GLEW");
+        Debug::Log::error("Failed to initialize GLEW");
         return -1;
     }
 
     glfwMakeContextCurrent(window);
     glewExperimental = GL_TRUE;
     if (glewInit() != GLEW_OK) {
-        System::Log::error("Failed to initialize GLEW");
+        Debug::Log::error("Failed to initialize GLEW");
         return -1;
     }
     glViewport(0, 0, width, height);
@@ -48,7 +46,7 @@ int Window::initialize(const int width, const int height, const char* title)
     Window::width = width;
     Window::height = height;
 
-    System::Log::alert("Window initialized");
+    Debug::Log::alert("Window initialized");
 
     return 0;
 }

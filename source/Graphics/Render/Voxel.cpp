@@ -43,7 +43,7 @@ namespace Graphics::Render
 {
 	Voxel::Voxel(size_t capacity) : bufferCapacity(capacity) {
 		buffer = new float[bufferCapacity * VERTEX_SIZE * 6];
-		Debug::Log::alert("Voxel created");
+		Debug::Log::alert("Voxel initialized");
 	}
 
 	Voxel::~Voxel(){

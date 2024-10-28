@@ -3,8 +3,8 @@
 #include <format>
 #include <GL/glew.h>
 
-#include "../system/Loader.h"
-#include "../system/Log.h"
+#include "../System/Loader.h"
+#include "../Debug/Log.h"
 
 namespace Graphics {
     Texture::Texture(const unsigned int id, const int width, const int height): id(id), width(width), height(height)
@@ -26,7 +26,7 @@ namespace Graphics {
         int width, height;
         const GLuint texture = System::Loader::loadPng(path, &width, &height);
         if (texture == 0){
-            System::Log::error(std::format("Could not load texture {}", path));
+            Debug::Log::error(std::format("Could not load texture {}", path));
             return nullptr;
         }
         return new Texture(texture, width, height);

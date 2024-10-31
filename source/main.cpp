@@ -29,7 +29,7 @@ int main()
     Event::initialize();                                // Initialize event handling
 
     // Load vertex and fragment shaders from specified paths
-    Graphics::Shader* shader = Graphics::loadShader(RESOURCES_PATH "shaders/main.vert", RESOURCES_PATH "shaders/main.frag");
+    const Graphics::Shader* shader = Graphics::loadShader(RESOURCES_PATH "shaders/main.vert", RESOURCES_PATH "shaders/main.frag");
     if(shader == nullptr) // Check if shader loading failed
     {
         Debug::Log::error("Failed to load shaders");
@@ -53,7 +53,7 @@ int main()
     glClearColor(0.6f,0.62f,0.65f,1);
 
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE); // Turn off noclip
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

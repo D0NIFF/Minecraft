@@ -47,13 +47,13 @@ int main()
         return -1; // Exit with error code
     }
 
-    Graphics::Render::Voxel renderer(1024 * 1024 * 8);
+    const Graphics::Render::Voxel renderer(1024 * 1024 * 8);
     const auto* chunk = new Engine::Voxel::Chunk();
     const Graphics::Mesh* mesh = renderer.render(chunk);
     glClearColor(0.6f,0.62f,0.65f,1);
 
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE); // Turn off no clip
+    glEnable(GL_CULL_FACE);     // Turn off no clip
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -65,7 +65,6 @@ int main()
 
 
     glm::mat4 model(1.0f); // Initialize the matrix
-    model = glm::translate(model, glm::vec3(0.5f, 0, 0));
     Debug::Log::alert("Initialized matrix");
 
     auto lastTime = static_cast<float>(glfwGetTime());
@@ -77,7 +76,7 @@ int main()
     while (!Window::isShouldClose())
     {
 
-        constexpr float speed = 5;  // Camera movement speed
+        constexpr float speed = 20;  // Camera movement speed
         const auto currentTime = static_cast<float>(glfwGetTime());
 
         delta = currentTime - lastTime;

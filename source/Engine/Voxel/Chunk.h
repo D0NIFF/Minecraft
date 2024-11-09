@@ -1,5 +1,5 @@
-#ifndef _CHUNK_H
-#define _CHUNK_H
+#ifndef CHUNK_HEADER
+#define CHUNK_HEADER
 
 #define CHUNK_W 16
 #define CHUNK_H 16
@@ -21,4 +21,4 @@ namespace Engine::Voxel
 
 }
 
-#endif // _CHUNK_H
+#endif // CHUNK_HEADER

@@ -16,8 +16,8 @@ set(SOURCE_FILES main.cpp
         Graphics/render/Voxel.cpp
         Graphics/render/Voxel.h
 
-        system/Loader.cpp
-        system/Loader.h
+        System/ImageLoader.cpp
+        System/ImageLoader.h
         Debug/Log.cpp
         Debug/Log.h
 

@@ -67,10 +67,11 @@ namespace Graphics::Render
 					float lightValue;
 					constexpr float textureAtlasTileSize = 1.0f / 16.0f;
 					const float textureCoordU = static_cast<float>(voxelId % 16) * textureAtlasTileSize;
-					//const float textureCoordV = (1 - (voxelId / 16) * textureAtlasTileSize);
-					constexpr float textureCoordV = 1.0f;
+					const float textureCoordV = (1 - (voxelId / 16) * textureAtlasTileSize);
+					//constexpr float textureCoordV = 1.0f;
 
-					if (!IS_BLOCKED(x, y + 1, z)){
+					if (!IS_BLOCKED(x, y + 1, z))
+					{
 						lightValue = 1.0f;
 						VERTEX(vertexIndex, x - 0.5f, y + 0.5f, z - 0.5f, textureCoordU  + textureAtlasTileSize, textureCoordV, lightValue);
 						VERTEX(vertexIndex, x - 0.5f, y + 0.5f, z + 0.5f, textureCoordU  + textureAtlasTileSize, textureCoordV + textureAtlasTileSize, lightValue);
@@ -80,7 +81,8 @@ namespace Graphics::Render
 						VERTEX(vertexIndex, x + 0.5f, y + 0.5f, z + 0.5f, textureCoordU, textureCoordV + textureAtlasTileSize, lightValue);
 						VERTEX(vertexIndex, x + 0.5f, y + 0.5f, z - 0.5f, textureCoordU, textureCoordV, lightValue);
 					}
-					if (!IS_BLOCKED(x, y - 1, z)){
+					if (!IS_BLOCKED(x, y - 1, z))
+					{
 						lightValue = 0.75f;
 						VERTEX(vertexIndex, x - 0.5f, y - 0.5f, z - 0.5f, textureCoordU, textureCoordV, lightValue);
 						VERTEX(vertexIndex, x + 0.5f, y - 0.5f, z + 0.5f, textureCoordU + textureAtlasTileSize, textureCoordV + textureAtlasTileSize, lightValue);
@@ -91,7 +93,8 @@ namespace Graphics::Render
 						VERTEX(vertexIndex, x + 0.5f, y - 0.5f, z + 0.5f, textureCoordU + textureAtlasTileSize, textureCoordV + textureAtlasTileSize, lightValue);
 					}
 
-					if (!IS_BLOCKED(x + 1, y, z)){
+					if (!IS_BLOCKED(x + 1, y, z))
+					{
 						lightValue = 0.95f;
 						VERTEX(vertexIndex, x + 0.5f, y - 0.5f, z - 0.5f, textureCoordU + textureAtlasTileSize, textureCoordV, lightValue);
 						VERTEX(vertexIndex, x + 0.5f, y + 0.5f, z - 0.5f, textureCoordU + textureAtlasTileSize, textureCoordV + textureAtlasTileSize, lightValue);
@@ -101,7 +104,8 @@ namespace Graphics::Render
 						VERTEX(vertexIndex, x + 0.5f, y + 0.5f, z + 0.5f, textureCoordU, textureCoordV + textureAtlasTileSize, lightValue);
 						VERTEX(vertexIndex, x + 0.5f, y - 0.5f, z + 0.5f, textureCoordU, textureCoordV, lightValue);
 					}
-					if (!IS_BLOCKED(x - 1, y, z)){
+					if (!IS_BLOCKED(x - 1, y, z))
+					{
 						lightValue = 0.85f;
 						VERTEX(vertexIndex, x - 0.5f, y - 0.5f, z - 0.5f, textureCoordU, textureCoordV, lightValue);
 						VERTEX(vertexIndex, x - 0.5f, y + 0.5f, z + 0.5f, textureCoordU + textureAtlasTileSize, textureCoordV + textureAtlasTileSize, lightValue);
@@ -112,7 +116,8 @@ namespace Graphics::Render
 						VERTEX(vertexIndex, x - 0.5f, y + 0.5f, z + 0.5f, textureCoordU + textureAtlasTileSize, textureCoordV + textureAtlasTileSize, lightValue);
 					}
 
-					if (!IS_BLOCKED(x, y, z + 1)){
+					if (!IS_BLOCKED(x, y, z + 1))
+					{
 						lightValue = 0.9f;
 						VERTEX(vertexIndex, x - 0.5f, y - 0.5f, z + 0.5f, textureCoordU, textureCoordV, lightValue);
 						VERTEX(vertexIndex, x + 0.5f, y + 0.5f, z + 0.5f, textureCoordU + textureAtlasTileSize, textureCoordV + textureAtlasTileSize, lightValue);
@@ -122,7 +127,8 @@ namespace Graphics::Render
 						VERTEX(vertexIndex, x + 0.5f, y - 0.5f, z + 0.5f, textureCoordU + textureAtlasTileSize, textureCoordV, lightValue);
 						VERTEX(vertexIndex, x + 0.5f, y + 0.5f, z + 0.5f, textureCoordU + textureAtlasTileSize, textureCoordV + textureAtlasTileSize, lightValue);
 					}
-					if (!IS_BLOCKED(x, y, z - 1)){
+					if (!IS_BLOCKED(x, y, z - 1))
+					{
 						lightValue = 0.8f;
 						VERTEX(vertexIndex, x - 0.5f, y - 0.5f, z - 0.5f, textureCoordU + textureAtlasTileSize, textureCoordV, lightValue);
 						VERTEX(vertexIndex, x - 0.5f, y + 0.5f, z - 0.5f, textureCoordU + textureAtlasTileSize, textureCoordV + textureAtlasTileSize, lightValue);

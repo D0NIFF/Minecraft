@@ -3,7 +3,7 @@
 
 namespace System {
 
-class Loader {
+class ImageLoader {
 public:
     static int loadPng(const char* fileName, int* width, int* height);
 };

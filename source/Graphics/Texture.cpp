@@ -3,7 +3,7 @@
 #include <format>
 #include <GL/glew.h>
 
-#include "../System/Loader.h"
+#include "../System/ImageLoader.h"
 #include "../Debug/Log.h"
 
 namespace Graphics {
@@ -24,7 +24,7 @@ namespace Graphics {
     Texture* loadTexture(const char* path)
     {
         int width, height;
-        const GLuint texture = System::Loader::loadPng(path, &width, &height);
+        const GLuint texture = System::ImageLoader::loadPng(path, &width, &height);
         if (texture == 0){
             Debug::Log::error(std::format("Could not load texture {}", path));
             return nullptr;

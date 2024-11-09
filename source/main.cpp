@@ -29,7 +29,7 @@ int main()
     Event::initialize();                                // Initialize event handling
 
     // Load vertex and fragment shaders from specified paths
-    Graphics::Shader* shader = Graphics::loadShader(RESOURCES_PATH "shaders/main.vert", RESOURCES_PATH "shaders/main.frag");
+    const Graphics::Shader* shader = Graphics::loadShader(RESOURCES_PATH "shaders/main.vert", RESOURCES_PATH "shaders/main.frag");
     if(shader == nullptr) // Check if shader loading failed
     {
         Debug::Log::error("Failed to load shaders");
@@ -47,13 +47,13 @@ int main()
         return -1; // Exit with error code
     }
 
-    Graphics::Render::Voxel renderer(1024 * 1024 * 8);
-    Engine::Voxel::Chunk* chunk = new Engine::Voxel::Chunk();
+    const Graphics::Render::Voxel renderer(1024 * 1024 * 8);
+    const auto* chunk = new Engine::Voxel::Chunk();
     const Graphics::Mesh* mesh = renderer.render(chunk);
     glClearColor(0.6f,0.62f,0.65f,1);
 
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);     // Turn off no clip
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -65,10 +65,9 @@ int main()
 
 
     glm::mat4 model(1.0f); // Initialize the matrix
-    model = glm::translate(model, glm::vec3(0.5f, 0, 0));
     Debug::Log::alert("Initialized matrix");
 
-    float lastTime = static_cast<float>(glfwGetTime());
+    auto lastTime = static_cast<float>(glfwGetTime());
     float delta = 0.0f; //
     float camX = 0.0f;
     float camY = 0.0f;  // C
@@ -77,8 +76,8 @@ int main()
     while (!Window::isShouldClose())
     {
 
-        constexpr float speed = 5;  // Camera movement speed
-        const float currentTime = static_cast<float>(glfwGetTime());
+        constexpr float speed = 20;  // Camera movement speed
+        const auto currentTime = static_cast<float>(glfwGetTime());
 
         delta = currentTime - lastTime;
         lastTime = currentTime;
@@ -130,10 +129,10 @@ int main()
     }
 
     // Clean up resources
-    delete shader; // Delete the shader
-    delete texture; // Delete the texture
-    delete mesh; // Delete the mesh
-    delete chunk; // Delete the mesh
+    delete shader;      // Delete the shader
+    delete texture;     // Delete the texture
+    delete mesh;        // Delete the mesh
+    delete chunk;       // Delete the mesh
 
     Window::terminate();
     Debug::Log::alert("Program ended");

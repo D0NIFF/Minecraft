@@ -48,12 +48,12 @@ int main()
     }
 
     Graphics::Render::Voxel renderer(1024 * 1024 * 8);
-    Engine::Voxel::Chunk* chunk = new Engine::Voxel::Chunk();
+    const auto* chunk = new Engine::Voxel::Chunk();
     const Graphics::Mesh* mesh = renderer.render(chunk);
     glClearColor(0.6f,0.62f,0.65f,1);
 
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE); // Turn off noclip
+    glEnable(GL_CULL_FACE); // Turn off no clip
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -68,7 +68,7 @@ int main()
     model = glm::translate(model, glm::vec3(0.5f, 0, 0));
     Debug::Log::alert("Initialized matrix");
 
-    float lastTime = static_cast<float>(glfwGetTime());
+    auto lastTime = static_cast<float>(glfwGetTime());
     float delta = 0.0f; //
     float camX = 0.0f;
     float camY = 0.0f;  // C
@@ -78,7 +78,7 @@ int main()
     {
 
         constexpr float speed = 5;  // Camera movement speed
-        const float currentTime = static_cast<float>(glfwGetTime());
+        const auto currentTime = static_cast<float>(glfwGetTime());
 
         delta = currentTime - lastTime;
         lastTime = currentTime;
@@ -130,10 +130,10 @@ int main()
     }
 
     // Clean up resources
-    delete shader; // Delete the shader
-    delete texture; // Delete the texture
-    delete mesh; // Delete the mesh
-    delete chunk; // Delete the mesh
+    delete shader;      // Delete the shader
+    delete texture;     // Delete the texture
+    delete mesh;        // Delete the mesh
+    delete chunk;       // Delete the mesh
 
     Window::terminate();
     Debug::Log::alert("Program ended");

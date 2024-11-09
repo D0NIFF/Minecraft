@@ -1,4 +1,4 @@
-#include "Loader.h"
+#include "ImageLoader.h"
 
 #include <GLFW/glfw3.h>
 #include <format>
@@ -8,8 +8,7 @@
 #include "../Graphics/stb_image.h"
 
 namespace System {
-    int Loader::loadPng(const char* fileName, int* width, int* height) {
-        //std::cout << "Opening file: " << fileName << std::endl;
+    int ImageLoader::loadPng(const char* fileName, int* width, int* height) {
         Debug::Log::alert(std::format("Opening file:  {}", fileName));
 
         // Image load with stb_image
@@ -23,7 +22,7 @@ namespace System {
         glGenTextures(1, &texture);
         glBindTexture(GL_TEXTURE_2D, texture);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, *width, *height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, *width, *height, 0, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid *) image_data);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glBindTexture(GL_TEXTURE_2D, 0);
